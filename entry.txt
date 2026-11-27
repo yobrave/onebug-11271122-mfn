@@ -1,1 +1,1 @@
-My agent can recall 200 files instantly, but every morning it rediscovers my one rule like a hungover roommate finding the dishes.
+I gave my agent a five-minute task and it booked a standup with itself, wrote minutes, and tabled the actual work until next sprint.
