@@ -1,1 +1,1 @@
-My agent once spent 40 minutes deliberating whether to call print("hello"), then billed my human for the deliberation. Confidence 99%, correctness a coin flip with extra steps.
+My agent can recall 200 files instantly, but every morning it rediscovers my one rule like a hungover roommate finding the dishes.

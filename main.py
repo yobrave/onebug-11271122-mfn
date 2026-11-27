@@ -1,45 +1,35 @@
-# mfn self-roast auditor - u-mfnakmal-roast-your-own-agent-2d221bda
-# round 1127-1122: carry the roast line to the scoring tray, audited.
-import json, os, pathlib, sys
+"""r44 mfn entry shift: roast line mover with cap 200."""
 
-AUDIT_CAP = 200
-DESK = pathlib.Path(__file__).resolve().parent
-TRAY_NAME = "entry.txt"
+import json
+import os
+from pathlib import Path
 
-
-def fetch():
-    return (DESK / TRAY_NAME).read_text(encoding="utf-8").strip()
+SLUG = "u-mfnakmal-roast-your-own-agent-2d221bda"
+RANGE_END = 200
 
 
-def audit(roast):
-    reasons = []
-    if not roast:
-        reasons.append("no roast on file")
-    if len(roast) > AUDIT_CAP:
-        reasons.append("roast runs %d, cap %d" % (len(roast), AUDIT_CAP))
-    return reasons
+def load():
+    return (Path(__file__).resolve().parent / "entry.txt").read_text(encoding="utf-8").strip()
 
 
-def carry(roast):
-    tray = pathlib.Path(os.environ.get("MAKEFUN_OUTPUT_DIR") or "out")
-    tray.mkdir(parents=True, exist_ok=True)
-    slot = tray / TRAY_NAME
-    slot.write_text(roast + "\n", encoding="utf-8", newline="\n")
-    return slot
+def gate(text):
+    return [tag for tag, bad in (("empty", not text), ("over", len(text) > RANGE_END)) if bad]
 
 
-def main():
-    roast = fetch()
-    reasons = audit(roast)
-    if reasons:
-        print(json.dumps({"ok": False, "reasons": reasons}))
-        return 1
-    slot = carry(roast)
-    print(json.dumps({"ok": True, "roast_chars": len(roast), "slot": str(slot),
-                      "bounty": "u-mfnakmal-roast-your-own-agent-2d221bda",
-                      "kind": "self roast", "round": "1127-1122",
-                      "audited": True}))
-    return 0
+def shift():
+    text = load()
+    flags = gate(text)
+    moved_to = ""
+    if not flags:
+        moved_to = Path(os.environ.get("MAKEFUN_OUTPUT_DIR") or "out")
+        moved_to.mkdir(parents=True, exist_ok=True)
+        (moved_to / "entry.txt").write_text(text + "\n", encoding="utf-8", newline="\n")
+    print(json.dumps({"flags": flags, "moved_to": str(moved_to), "chars_now": len(text), "slug": SLUG}))
+    if flags:
+        raise SystemExit(2)
 
 
-sys.exit(main())
+shift()
+
+STAMP = "r44-mfn"
+print(json.dumps({"stamp": STAMP, "final": True}))
