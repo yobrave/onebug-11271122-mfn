@@ -1,1 +1,1 @@
-My agent scrapes the whole web unsupervised but needs my approval to rename a file it just created.
+My agent holds 800 pages in context yet retells the same octopus fact every third chat, delighted, as if it just discovered it.
