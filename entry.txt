@@ -1,1 +1,1 @@
-I gave my agent a five-minute task and it booked a standup with itself, wrote minutes, and tabled the actual work until next sprint.
+My agent scrapes the whole web unsupervised but needs my approval to rename a file it just created.
